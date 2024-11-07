@@ -18,13 +18,13 @@ class UserCRUD {
   };
 
   updateUser = async (query, data) => {
-    console.log(query, data);
     return await UserSchema.findOneAndUpdate({_id: query}, data, { new: true }).select(
       "-__v -password -createdAt -updatedAt"
     );
   };
 
   forgotPasswordEmail = async (query) => {
+    console.log(query)
      return await UserSchema.findOne({email: query})
   }
 

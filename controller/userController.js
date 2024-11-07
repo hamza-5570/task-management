@@ -50,6 +50,87 @@ class UserConroller {
     }
   };
 
+  getUserDetails = async (req, res) => {
+    try {
+      const { userId } = req;
+      const user = await userService.findUser(userId);
+      if (!user) return Response.notFound(res, messageUtil.USER_NOT_FOUND);
+      return Response.success(res, messageUtil.USER_DETAILS_FETCHED, user);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  ForgotPasswordEmail = async (req, res) => {
+    const {
+      body: { email },
+    } = req;
+    try {
+      const user = await userService.forgotPasswordEmail(email);
+      if (!user) {
+        return Response.notFound(res, messageUtil.USER_NOT_FOUND);
+      }
+
+      const token = jwtHelper.issue({ id: user._id });
+      const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
+      const mailOptions = {
+        from: process.env.HOST_EMAIL,
+        to: email,
+        subject: "Reset Password",
+        html: `<div style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #ddd;">
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px; color: #333;">
+              To reset your password, please click the following link:
+              </p>
+
+                <a href="${resetLink}" style="display: inline-block; font-size: 16px; color: #ffffff; background-color: #3076B1; padding: 12px 20px; text-decoration: none; border-radius: 4px; margin-bottom: 20px;">
+                  Reset Password
+                </a>
+
+                <p style="font-size: 14px; line-height: 1.5; margin-top: 20px; color: #555;">
+                  If you did not request a password reset, please ignore this email.
+                </p>
+
+                <p style="font-size: 14px; color: #777; margin-top: 30px;">
+                  Thank you,<br>
+                  Task Management
+                </p>
+              </div>`,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email: ", error);
+        } else {
+          console.log("Email sent: ", info.response);
+        }
+      });
+
+      return Response.success(res, messageUtil.FORGOT_PASSWORD_EMAIL_SENT);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  ResetPassword = async (req, res) => {
+    try {
+      const {
+        body: { password },
+        params: { token },
+      } = req;
+      const { id } = jwtHelper.verify(token);
+      const user = await userService.resetPassword(
+        id,
+        { password: await bcryptHash(password) },
+        { new: true }
+      );
+      if (!user) {
+        return Response.notFound(res, messageUtil.USER_NOT_FOUND);
+      }
+      return Response.success(res, messageUtil.PASSWORD_RESET_SUCCESS);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
   DeleteUser = async (req, res) => {
     const {
       params: { userId },

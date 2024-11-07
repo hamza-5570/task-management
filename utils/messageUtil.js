@@ -11,6 +11,9 @@ const messageUtil = {
     OK: "OK",
     TOKEN_EMPTY: "Token is empty!",
     UNAUTHORIZED: "Unauthorized!",
+    USER_DETAILS_FETCHED: "User details fetched successfully!",
+    FORGOT_PASSWORD_EMAIL_SENT: "Forgot password email sent successfully!",
+    PASSWORD_RESET_SUCCESS: "Password reset successfully!",
 
 
     // project 
