@@ -3,6 +3,7 @@ import express from 'express';
 import dbConnection from "./db/dbConnection.js";
 import routes from "./routes/routes.js"
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(express.json(
         limit: "50mb",
     }
 ));
+
+app.use(cors())
 
 // Use cookie-parser middleware
 app.use(cookieParser());
