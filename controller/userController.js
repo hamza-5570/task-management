@@ -3,15 +3,17 @@ import Response from "../utils/response.js";
 import messageUtil from "../utils/messageUtil.js";
 import userService from "../services/userServices.js";
 import { bcryptHash, comparePassword } from "../utils/password.js";
+import transporter from "../middleware/transporter.js"
+import User from "../model/user.js"; 
 
 class UserConroller {
   SignUp = async (req, res) => {
     try {
-      let user = await userService.findByEmail(req.body.email);
+      let existingUser = await User.findOne({email: req.body.email});
 
-      if (user) return Response.ExistallReady(res, messageUtil.ALL_READY_EXIST);
+      if (existingUser) return Response.ExistallReady(res, messageUtil.ALL_READY_EXIST);
 
-      user = await userService.createUser({
+      const user = await userService.createUser({
         ...req.body,
         password: await bcryptHash(req.body.password),
       });
