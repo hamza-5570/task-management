@@ -45,6 +45,18 @@ const messageUtil = {
     FAILED_TO_DELETE_INVOICE: "Failed to delete invoice!",
     INVOICE_FETCHED: "Invoice fetched successfully!",
     PROJECT_ALREADY_HAVE_INVOICE: "Project already have invoice!",
+
+
+    // schedule
+    SCHEDULE_CREATED: "Schedule created!",
+    SCHEDULE_UPDATED: "Schedule updated!",
+    SCHEDULE_DELETED: "Schedule deleted!",
+    SCHEDULE_NOT_FOUND: "Schedule not found!",
+    FAILED_TO_CREATE_SCHEDULE: "Failed to create schedule!",
+    FAILED_TO_FETCH_SCHEDULES: "Failed to fetch schedules!",
+    FAILED_TO_UPDATE_SCHEDULE: "Failed to update schedule!",
+    FAILED_TO_DELETE_SCHEDULE: "Failed to delete schedule!",
+    SCHEDULE_FETCHED: "Schedule fetched successfully!",
 }
 
 export default messageUtil

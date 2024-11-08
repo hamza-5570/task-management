@@ -8,8 +8,8 @@ class TaskService {
     findTask = async (query) => {
         return await Task.findOne(query);
     }
-    getTasks = async () => {
-        return await Task.find();
+    getTasks = async (project) => {
+        return await Task.find({ project: project });
     }
     updateTask = async (query, data) => {
         return await Task.findOneAndUpdate(query, data, { new: true });
