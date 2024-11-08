@@ -40,7 +40,8 @@ class ProjectController {
 
     getProjects = async (req, res) => {
         try { 
-            const projects = await projectService.getProjects();
+            const {userId} = req;
+            const projects = await projectService.getProjects(userId);
             return Response.success(res, messageUtil.OK, projects);
         } catch (error) {
             return Response.serverError(res, error);

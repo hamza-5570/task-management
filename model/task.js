@@ -30,7 +30,6 @@ const TaskSchema = new Schema(
     assigned_to: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
   },
   {

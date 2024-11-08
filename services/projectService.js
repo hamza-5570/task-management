@@ -10,7 +10,7 @@ class ProjectService{
     };
 
     getProjects = async () => {
-        return await Project.find().populate("tasks");
+        return await Project.find({created_by: userId}).populate("tasks");
     };
 
     updateProject = async (query, data) => {
