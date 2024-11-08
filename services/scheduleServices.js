@@ -23,6 +23,20 @@ class ScheduleService {
             }
         });
     }
+
+    getMonthlySchedule = async (userId) => {
+        const today = new Date(); 
+        const nextMonth = new Date(today); 
+        nextMonth.setMonth(today.getMonth() + 1);
+    
+        return await Schedule.find({
+            user: userId,
+            schedule_date: {
+                $gte: today,  
+                $lt: nextMonth 
+            }
+        });
+    }
     
     updateSchedule = async (query, data) => {
         return await Schedule.findOneAndUpdate(query, data, { new: true });
