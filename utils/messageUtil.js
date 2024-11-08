@@ -21,6 +21,17 @@ const messageUtil = {
     PROJECT_UPDATED: "Project updated!",
     PROJECT_DELETED: "Project deleted!",
     PROJECT_NOT_FOUND: "Project not found!",
+
+    // task
+    FAILED_TO_CREATE_TASK: "Failed to create task!",
+    TASK_CREATED: "Task created!",
+    TASK_UPDATED: "Task updated!",
+    TASK_DELETED: "Task deleted!",
+    TASK_NOT_FOUND: "Task not found!",
+    FAILED_TO_FETCH_TASKS: "Failed to fetch tasks!",
+    FAILED_TO_UPDATE_TASK: "Failed to update task!",
+    FAILED_TO_DELETE_TASK: "Failed to delete task!",
+    TASK_FETCHED: "Task fetched successfully!",
 }
 
 export default messageUtil

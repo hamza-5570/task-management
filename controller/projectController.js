@@ -1,6 +1,7 @@
 import projectService from "../services/projectService.js";
 import Response from "../utils/response.js"
 import messageUtil from "../utils/messageUtil.js"
+import { get } from "mongoose";
 
 
 class ProjectController {
@@ -23,11 +24,11 @@ class ProjectController {
         }
     }
 
-    findProjects = async (req, res) => {
-        
+    getProjects = async (req, res) => {
+       
         try {
-            console.log("projects")
-            const projects = await projectService.findProjects();
+            
+            const projects = await projectService.getProjects();
             
             return Response.success(res, messageUtil.OK, projects);
         } catch (error) {

@@ -22,6 +22,10 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    due_date: {
+      type: Date,
+      required: true,
+    },
     phoneNumber: {
       type: String,
       required: true,
@@ -38,6 +42,10 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    tasks: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Task",
+    }]
   },
   { timestamps: true }
 );

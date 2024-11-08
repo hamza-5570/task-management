@@ -6,11 +6,11 @@ class ProjectService{
     };
 
     findProject = async (query) => {
-        return await Project.findOne(query);
+        return await Project.findOne(query).populate("tasks");
     };
 
-    findProjects = async () => {
-        return await Project.find();
+    getProjects = async () => {
+        return await Project.find().populate("tasks");
     };
 
     updateProject = async (query, data) => {

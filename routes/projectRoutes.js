@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/create", projectController.createProject);
 router.get("/:id", projectController.findProject);
-router.get("/find", projectController.findProjects);
+router.get("/all/projects", projectController.getProjects);
 router.put("/update/:id", projectController.updateProject);
 router.delete("/delete/:id", projectController.deleteProject);
 
