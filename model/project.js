@@ -44,8 +44,8 @@ const ProjectSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "In Progress", "Completed"],
-      default: "Pending",
+      enum: ["completed", "on going", "At Risk", "Delayed"],
+      default: "on going",
     },
     created_by: {
       type: mongoose.Schema.Types.ObjectId,
