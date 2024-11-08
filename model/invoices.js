@@ -16,7 +16,7 @@ const InvoiceSchema = new Schema(
             required: true,
         },
         email: {
-            type: Date,
+            type: String,
             required: true,
         },
         amount: {
@@ -31,6 +31,10 @@ const InvoiceSchema = new Schema(
             type: String,
             enum: ["Unpaid", "Paid"],
             default: "Unpaid",
+        },
+        created_by: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
         },
     })
     
