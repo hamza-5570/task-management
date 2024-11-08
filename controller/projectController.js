@@ -67,6 +67,16 @@ class ProjectController {
             return Response.serverError(res, error);
         }
     }
+
+    getUnBilledProjects = async (req, res) => {
+        const {userId} = req;
+        try {
+            const projects = await projectService.getUnBilledProjects(userId);
+            return Response.success(res, messageUtil.OK, projects);
+        } catch (error) {
+            return Response.serverError(res, error);
+        }
+    }
 }
 
 export default new ProjectController();

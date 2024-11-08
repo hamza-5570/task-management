@@ -18,6 +18,7 @@ class InvoiceController {
             }
 
             const project = await projectService.findProject({ _id: invoice.project });
+            console.log(project);
             if (!project) {
                 return Response.serverError(res, messageUtil.PROJECT_NOT_FOUND);
             }

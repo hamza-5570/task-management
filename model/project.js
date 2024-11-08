@@ -58,6 +58,7 @@ const ProjectSchema = new mongoose.Schema(
     invoice: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Invoice",
+      default: null,
     }
   },
   { timestamps: true }
