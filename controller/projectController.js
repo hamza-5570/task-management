@@ -26,7 +26,9 @@ class ProjectController {
     findProjects = async (req, res) => {
         
         try {
+            console.log("projects")
             const projects = await projectService.findProjects();
+            
             return Response.success(res, messageUtil.OK, projects);
         } catch (error) {
             return Response.serverError(res, error);

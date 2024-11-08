@@ -74,7 +74,7 @@ class UserConroller {
       }
 
       const token = jwtHelper.issue({ id: user._id });
-      const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
       const mailOptions = {
         from: process.env.HOST_EMAIL,
         to: email,
