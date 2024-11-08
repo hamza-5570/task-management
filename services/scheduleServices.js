@@ -25,18 +25,35 @@ class ScheduleService {
     }
 
     getMonthlySchedule = async (userId) => {
-        const today = new Date(); 
-        const nextMonth = new Date(today); 
-        nextMonth.setMonth(today.getMonth() + 1);
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const startOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
     
         return await Schedule.find({
             user: userId,
             schedule_date: {
-                $gte: today,  
-                $lt: nextMonth 
+                $gte: startOfMonth,
+                $lt: startOfNextMonth
             }
         });
-    }
+    };
+
+    getYearlySchedule = async (userId) => {
+        console.log(userId)
+        const today = new Date();
+
+        const startOfYear = new Date(today.getFullYear(), 0, 1);
+
+        const startOfNextYear = new Date(today.getFullYear() + 1, 0, 1);
+    
+        return await Schedule.find({
+            user: userId,
+            schedule_date: {
+                $gte: startOfYear,
+                $lt: startOfNextYear
+            }
+        });
+    };
     
     updateSchedule = async (query, data) => {
         return await Schedule.findOneAndUpdate(query, data, { new: true });
