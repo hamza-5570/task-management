@@ -10,6 +10,7 @@ class ProjectService{
     };
 
     getProjects = async (userId) => {
+        console.log(userId)
         return await Project.find({created_by: userId}).populate("tasks");
     };
 

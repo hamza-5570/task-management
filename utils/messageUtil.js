@@ -32,6 +32,18 @@ const messageUtil = {
     FAILED_TO_UPDATE_TASK: "Failed to update task!",
     FAILED_TO_DELETE_TASK: "Failed to delete task!",
     TASK_FETCHED: "Task fetched successfully!",
+
+
+    // invoice
+    INVOICE_CREATED: "Invoice created!",
+    INVOICE_UPDATED: "Invoice updated!",
+    INVOICE_DELETED: "Invoice deleted!",
+    INVOICE_NOT_FOUND: "Invoice not found!",
+    FAILED_TO_CREATE_INVOICE: "Failed to create invoice!",
+    FAILED_TO_FETCH_INVOICES: "Failed to fetch invoices!",
+    FAILED_TO_UPDATE_INVOICE: "Failed to update invoice!",
+    FAILED_TO_DELETE_INVOICE: "Failed to delete invoice!",
+    INVOICE_FETCHED: "Invoice fetched successfully!",
 }
 
 export default messageUtil

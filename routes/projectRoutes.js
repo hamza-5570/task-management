@@ -6,7 +6,7 @@ import isAuthenticated from "../middleware/auth.js";
 
 router.post("/create", isAuthenticated.isAuthenticated, projectController.createProject);
 router.get("/:id", projectController.findProject);
-router.get("/all/projects", projectController.getProjects);
+router.get("/all/projects", isAuthenticated.isAuthenticated, projectController.getProjects);
 router.put("/update/:id", projectController.updateProject);
 router.delete("/delete/:id", projectController.deleteProject);
 
