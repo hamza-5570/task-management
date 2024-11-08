@@ -1,12 +1,16 @@
-import scheduleServices from "../services/scheduleServices";
+import scheduleServices from "../services/scheduleServices.js";
 import messageUtil from "../utils/messageUtil.js";
 import Response from "../utils/response.js";
 
 
 class ScheduleController {
     createSchedule = async (req, res) => {
+        const { userId } = req;
         try {
-            const schedule = req.body;
+            const schedule = {
+                ...req.body,
+                user: userId
+            }
             const newSchedule = await scheduleServices.createSchedule(schedule);
             if (!newSchedule) {
                 return Response.serverError(res, messageUtil.FAILED_TO_CREATE_SCHEDULE);
