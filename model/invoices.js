@@ -4,8 +4,8 @@ import { Schema, model } from "mongoose";
 const InvoiceSchema = new Schema(
     {
         project: {
-            type: String,
-            required: true,
+            type: Schema.Types.ObjectId,
+            ref: "Project",
         },
         invoice_id: {
             type: String,

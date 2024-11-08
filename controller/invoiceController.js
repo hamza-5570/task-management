@@ -1,6 +1,7 @@
 import InvoiceService from "../services/InvoiceService.js";
 import Response from "../utils/response.js";
 import messageUtil from "../utils/messageUtil.js";
+import projectService from "../services/projectService.js";
 
 class InvoiceController {
     createInvoice = async (req, res) => {
@@ -11,11 +12,21 @@ class InvoiceController {
                 created_by: userId
             };
 
-            console.log(invoice);
             const newInvoice = await InvoiceService.createInvoice(invoice);
             if (!newInvoice) {
                 return Response.serverError(res, messageUtil.FAILED_TO_CREATE_INVOICE);
             }
+
+            const project = await projectService.findProject({ _id: invoice.project });
+            if (!project) {
+                return Response.serverError(res, messageUtil.PROJECT_NOT_FOUND);
+            }
+            if(project.invoice !== null) {
+                return Response.serverError(res, messageUtil.PROJECT_ALREADY_HAVE_INVOICE);
+            }
+            project.invoice = newInvoice._id;
+            await project.save();
+
             return Response.success(res, messageUtil.INVOICE_CREATED, newInvoice);
         } catch (error) {
             return Response.serverError(res, error);
@@ -77,6 +88,19 @@ class InvoiceController {
         const {userId} = req;
         try {
             const invoices = await InvoiceService.getPaidInvoices(userId);
+            if (!invoices) {
+                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
+            }
+            return Response.success(res, messageUtil.OK, invoices);
+        } catch (error) {
+            return Response.serverError(res, error);
+        }
+    };
+
+    getUnPaidInvoices = async (req, res) => {
+        const {userId} = req;
+        try {
+            const invoices = await InvoiceService.getUnPaidInvoices(userId);
             if (!invoices) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
             }

@@ -45,7 +45,7 @@ const ProjectSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Completed", "On going", "At Risk", "Delayed"],
-      default: "on going",
+      default: "On going",
     },
     created_by: {
       type: mongoose.Schema.Types.ObjectId,
@@ -54,7 +54,11 @@ const ProjectSchema = new mongoose.Schema(
     tasks: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Task",
-    }]
+    }],
+    invoice: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
+    }
   },
   { timestamps: true }
 );

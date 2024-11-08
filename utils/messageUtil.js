@@ -44,6 +44,7 @@ const messageUtil = {
     FAILED_TO_UPDATE_INVOICE: "Failed to update invoice!",
     FAILED_TO_DELETE_INVOICE: "Failed to delete invoice!",
     INVOICE_FETCHED: "Invoice fetched successfully!",
+    PROJECT_ALREADY_HAVE_INVOICE: "Project already have invoice!",
 }
 
 export default messageUtil

@@ -11,6 +11,10 @@ class InvoiceService {
     getPaidInvoices = async (userId) => {
         return await Invoice.find({status: "Paid", created_by: userId});
     }
+
+    getUnPaidInvoices = async (userId) => {
+        return await Invoice.find({status: "Unpaid", created_by: userId});
+    }
     getInvoice = async (query) => {
         return await Invoice.findOne(query);
     }
