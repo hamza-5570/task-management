@@ -11,6 +11,10 @@ class TaskService {
     getTasks = async (project) => {
         return await Task.find({ project: project });
     }
+
+    getTasksByUserId = async (userId) => {
+        return await Task.find({ created_by: userId });
+    }
     updateTask = async (query, data) => {
         return await Task.findOneAndUpdate(query, data, { new: true });
     }

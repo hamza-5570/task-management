@@ -10,6 +10,20 @@ class ScheduleService {
     findSchedule = async (query) => {
         return await Schedule.findOne(query);
     };
+    getWeeklySchedule = async (userId) => {
+        const today = new Date(); 
+        const nextWeek = new Date(today); 
+        nextWeek.setDate(today.getDate() + 7);
+    
+        return await Schedule.find({
+            user: userId,
+            schedule_date: {
+                $gte: today,  
+                $lt: nextWeek 
+            }
+        });
+    }
+    
     updateSchedule = async (query, data) => {
         return await Schedule.findOneAndUpdate(query, data, { new: true });
     };

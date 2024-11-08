@@ -7,7 +7,11 @@ import projectServices from "../services/projectService.js";
 class TaskController {
     createTask = async (req, res) => {
        try {
-        const task = req.body;
+        const {userId} = req;
+        const task = {
+            ...req.body,
+            created_by: userId
+        }
 
         const newTask = await taskService.createTask(task);
         if(!newTask) {
@@ -31,6 +35,19 @@ class TaskController {
         const {params: {projectId}} = req;
        try {
         const tasks = await taskService.getTasks(projectId);
+        if(!tasks) {
+            return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
+        }
+        return Response.success(res, messageUtil.OK, tasks);
+       } catch (error) {
+        return Response.serverError(res, error);
+       }
+    };
+
+    getTasksByUserId = async (req, res) => {
+        const {userId} = req;
+       try {
+        const tasks = await taskService.getTasksByUserId(userId);
         if(!tasks) {
             return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
         }

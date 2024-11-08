@@ -31,6 +31,10 @@ const TaskSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    created_by: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
