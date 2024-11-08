@@ -42,6 +42,10 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     tasks: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Task",

@@ -1,8 +1,8 @@
 import Project from "../model/project.js";
 
 class ProjectService{
-    createProject = async (project) => {
-        return await Project.create(project);
+    createProject = async (project, userId) => {
+        return await Project.create(project, {created_by: userId});
     };
 
     findProject = async (query) => {

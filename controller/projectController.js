@@ -6,8 +6,9 @@ import { get } from "mongoose";
 
 class ProjectController {
     createProject = async (req, res) => {
+        const {userId} = req;
         try {
-            const project = await projectService.createProject(req.body);
+            const project = await projectService.createProject(req.body, userId);
            return Response.success(res, messageUtil.PROJECT_CREATED, project);
         } catch (error) {
             return Response.serverError(res, error);
