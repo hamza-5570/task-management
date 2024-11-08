@@ -1,14 +1,27 @@
 import projectService from "../services/projectService.js";
 import Response from "../utils/response.js"
 import messageUtil from "../utils/messageUtil.js"
-import { get } from "mongoose";
 
 
 class ProjectController {
     createProject = async (req, res) => {
         const {userId} = req;
+        const {body: {project_name, company, project_description, pointof_contact, email, due_date, phoneNumber, Attorney, Confilictof_interest, Examinee}} = req;
+
+        const data = {
+            project_name, 
+            company, 
+            project_description, 
+            pointof_contact, 
+            email, 
+            due_date, 
+            phoneNumber, Attorney, 
+            Confilictof_interest, 
+            Examinee,
+            created_by: userId
+        }
         try {
-            const project = await projectService.createProject(req.body, userId);
+            const project = await projectService.createProject(data);
            return Response.success(res, messageUtil.PROJECT_CREATED, project);
         } catch (error) {
             return Response.serverError(res, error);
@@ -26,11 +39,8 @@ class ProjectController {
     }
 
     getProjects = async (req, res) => {
-       
-        try {
-            
+        try { 
             const projects = await projectService.getProjects();
-            
             return Response.success(res, messageUtil.OK, projects);
         } catch (error) {
             return Response.serverError(res, error);

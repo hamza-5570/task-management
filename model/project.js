@@ -42,6 +42,11 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["Pending", "In Progress", "Completed"],
+      default: "Pending",
+    },
     created_by: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
