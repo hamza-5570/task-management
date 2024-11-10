@@ -4,8 +4,9 @@ class ScheduleService {
     createSchedule = async (schedule) => {
         return await Schedule.create(schedule);
     };
-    getSchedules = async () => {
-        return await Schedule.find();
+    getSchedules = async (userId) => {
+        console.log(userId)
+        return await Schedule.find({user: userId});
     };
     findSchedule = async (query) => {
         return await Schedule.findOne(query);

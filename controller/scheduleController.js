@@ -22,8 +22,9 @@ class ScheduleController {
     };
 
     getSchedules = async (req, res) => {
+        const {userId} = req;
         try {
-            const schedules = await scheduleServices.getSchedules();
+            const schedules = await scheduleServices.getSchedules(userId);
             if (!schedules) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
             }

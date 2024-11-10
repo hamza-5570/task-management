@@ -38,6 +38,7 @@ class InvoiceController {
         const { userId } = req;
         try {
             const invoices = await InvoiceService.getInvoices(userId);
+            console.log(invoices)
             if (!invoices) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
             }
