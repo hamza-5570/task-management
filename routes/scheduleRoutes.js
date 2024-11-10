@@ -6,6 +6,7 @@ import isAutherticated from "../middleware/auth.js"
 
 router.post("/create", isAutherticated.isAuthenticated, scheduleController.createSchedule);
 router.get("/all/schedules", isAutherticated.isAuthenticated, scheduleController.getSchedules);
+router.get("/day/schedules", isAutherticated.isAuthenticated, scheduleController.getOneDaySchedule);
 router.get("/weekly/schedules", isAutherticated.isAuthenticated, scheduleController.getWeeklySchedule);
 router.get("/monthly/schedules", isAutherticated.isAuthenticated, scheduleController.getMonthlySchedule);
 router.get("/yearly/schedules", isAutherticated.isAuthenticated, scheduleController.getYearlySchedule);
