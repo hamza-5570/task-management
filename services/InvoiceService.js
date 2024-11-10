@@ -5,7 +5,8 @@ class InvoiceService {
     createInvoice = async (invoice) => {
         return await Invoice.create(invoice);
     }
-    getInvoices = async ({ userId }) => {
+    getInvoices = async (userId) => {
+        console.log(userId)
         return await Invoice.find({created_by: userId});
     }
     getPaidInvoices = async (userId) => {
