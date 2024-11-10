@@ -5,7 +5,7 @@ import isAuthenticated from "../middleware/auth.js";
 
 router.post("/create", isAuthenticated.isAuthenticated, taskController.createTask);
 router.get("/all/tasks/:projectId", taskController.getTasks);
-router.get("/user/tasks", taskController.getTasks);
+router.get("/user/tasks", isAuthenticated.isAuthenticated, taskController.getTasksByUserId);
 router.get("/:id", taskController.findTask);
 router.put("/update/:id", taskController.updateTask);
 router.delete("/delete/:id", taskController.deleteTask);

@@ -13,6 +13,7 @@ class TaskService {
     }
 
     getTasksByUserId = async (userId) => {
+        console.log(userId)
         return await Task.find({ created_by: userId });
     }
     updateTask = async (query, data) => {
