@@ -22,20 +22,19 @@ class ScheduleService {
         });
       };
       
-    getWeeklySchedule = async (userId) => {
-        const today = new Date(); 
-        const nextWeek = new Date(today); 
+      getWeeklySchedule = async (userId) => {
+        const today = new Date();
+        const nextWeek = new Date(today);
         nextWeek.setDate(today.getDate() + 7);
-    
+        
         return await Schedule.find({
             user: userId,
-            schedule_date: {
-                $gte: today,  
-                $lt: nextWeek 
-            }
-        });
-    }
-
+            from: { $gte: today.toISOString(), $lt: nextWeek.toISOString() }, 
+            to: { $gte: today.toISOString(), $lt: nextWeek.toISOString() }
+        }).populate("task"); 
+    };
+    
+    
     getMonthlySchedule = async (userId) => {
         const today = new Date();
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
