@@ -26,6 +26,10 @@ app.use(cors(
     }
 ))
 
+app.get("/", (req, res) => {
+    res.send("Hello World");
+})
+
 // Use cookie-parser middleware
 app.use(cookieParser());
 
