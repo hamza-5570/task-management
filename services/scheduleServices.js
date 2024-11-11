@@ -5,8 +5,7 @@ class ScheduleService {
         return await Schedule.create(schedule);
     };
     getSchedules = async (userId) => {
-        console.log(userId)
-        return await Schedule.find({user: userId});
+        return await Schedule.find({user: userId}).populate("task");
     };
     findSchedule = async (query) => {
         return await Schedule.findOne(query);

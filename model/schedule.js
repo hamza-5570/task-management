@@ -2,13 +2,9 @@ import mongoose from "mongoose"
 
 
 const scheduleSchema = mongoose.Schema({
-    day: {
-        type: String,
-        required: true
-    },
-    project: {
+    task: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Project",
+        ref: "Task",
     },
     from: {
         type: String,
@@ -16,10 +12,6 @@ const scheduleSchema = mongoose.Schema({
     },
     to: {
         type: String,
-        required: true
-    },
-    schedule_date: {
-        type: Date,
         required: true
     },
     user: {
