@@ -5,7 +5,7 @@ import isAuthenticated from "../middleware/auth.js";
 import projectValidation from "../validation/projectValidation.js";
 
 
-router.post("/create", projectValidation.createProject, isAuthenticated.isAuthenticated, projectController.createProject);
+router.post("/create", isAuthenticated.isAuthenticated, projectController.createProject);
 router.get("/:id", projectController.findProject);
 router.get("/all/projects", isAuthenticated.isAuthenticated, projectController.getProjects);
 router.get("/get/unbilled", isAuthenticated.isAuthenticated, projectController.getUnBilledProjects);
