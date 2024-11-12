@@ -46,7 +46,7 @@ class TaskController {
   };
 
   getTasksByUserId = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;  
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
     const { userId } = req;
@@ -65,10 +65,12 @@ class TaskController {
 
       const response = {
         tasks,
-        totalCount,
-        totalPages,
-        currentPage: page,
-        itemsPerPage: limit,
+        pagination: {
+          currentPage: page,
+          itemsPerPage: limit,
+          totalItems: totalCount,
+          totalPages,
+        },
       };
 
       return Response.success(res, messageUtil.OK, response);
