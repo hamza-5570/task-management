@@ -14,6 +14,12 @@ const messageUtil = {
     USER_DETAILS_FETCHED: "User details fetched successfully!",
     FORGOT_PASSWORD_EMAIL_SENT: "Forgot password email sent successfully!",
     PASSWORD_RESET_SUCCESS: "Password reset successfully!",
+    FIRST_NAME_REQUIRED: "First name is required!",
+    FIRST_NAME_TYPE: "First name must be a string!",
+    LAST_NAME_REQUIRED: "Last name is required!",
+    PASSWORD_REQUIRED: "Password is required!",
+    PASSWORD_TYPE: "Password must be a string!",
+    ROLE_REQUIRED: "Role is required!",
 
 
     // project 
@@ -45,6 +51,12 @@ const messageUtil = {
     FAILED_TO_UPDATE_PROJECT: "Failed to update project!",
     FAILED_TO_DELETE_PROJECT: "Failed to delete project!",
     PROJECT_FETCHED: "Project fetched successfully!",
+    PROJECT_REQUIRED: "Project is required!",
+    CLIENT_REQUIRED: "Client is required!",
+    TASK_NAME_REQUIRED: "Task name is required!",
+    TIME_REQUIRED: "Time is required!",
+    STATUS_REQUIRED: "Status is required!",
+    ASSIGNED_TO_REQUIRED: "Assigned to is required!",
     
 
     // task
@@ -57,6 +69,9 @@ const messageUtil = {
     FAILED_TO_UPDATE_TASK: "Failed to update task!",
     FAILED_TO_DELETE_TASK: "Failed to delete task!",
     TASK_FETCHED: "Task fetched successfully!",
+    TASK_REQUIRED: "Task is required!",
+    FROM_REQUIRED: "From is required!",
+    TO_REQUIRED: "To is required!",
 
 
     // invoice

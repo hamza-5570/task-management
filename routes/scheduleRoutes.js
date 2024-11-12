@@ -2,9 +2,10 @@ import express from "express"
 const router = express.Router()
 import scheduleController from "../controller/scheduleController.js"
 import isAutherticated from "../middleware/auth.js"
+import scheduleValidation from "../validation/scheduleValidaion.js"
 
 
-router.post("/create", isAutherticated.isAuthenticated, scheduleController.createSchedule);
+router.post("/create", isAutherticated.isAuthenticated, scheduleValidation.createSchedule, scheduleController.createSchedule);
 router.get("/all/schedules", isAutherticated.isAuthenticated, scheduleController.getSchedules);
 router.get("/day/schedules", isAutherticated.isAuthenticated, scheduleController.getOneDaySchedule);
 router.get("/weekly/schedules", isAutherticated.isAuthenticated, scheduleController.getWeeklySchedule);
