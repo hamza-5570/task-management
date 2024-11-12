@@ -39,14 +39,32 @@ class ProjectController {
     }
 
     getProjects = async (req, res) => {
+        const page = parseInt(req.query.page) || 1;  
+        const limit = parseInt(req.query.limit) || 10;
+    
         try { 
-            const {userId} = req;
-            const projects = await projectService.getProjects(userId);
-            return Response.success(res, messageUtil.OK, projects);
+            const { userId } = req;
+
+            const { projects, totalCount } = await projectService.getProjects(userId, page, limit);
+    
+            const totalPages = Math.ceil(totalCount / limit);
+    
+            const response = {
+                projects,
+                pagination: {
+                    currentPage: page,
+                    totalPages,
+                    totalItems: totalCount,
+                    itemsPerPage: limit,
+                }
+            };
+    
+            return Response.success(res, messageUtil.OK, response);
         } catch (error) {
             return Response.serverError(res, error);
         }
     }
+    
 
     updateProject = async (req, res) => {
         try {

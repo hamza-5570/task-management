@@ -12,9 +12,18 @@ class TaskService {
         return await Task.find({ project: project });
     }
 
-    getTasksByUserId = async (userId) => {
-        console.log(userId)
-        return await Task.find({ created_by: userId });
+    getTasksByUserId = async (userId, page, limit) => {
+        const skip = (page - 1) * limit;
+
+        const tasks = await Task.find({ created_by: userId })
+        .skip(skip)
+        .limit(limit)
+        .exec();
+
+        const totalCount = await Task.countDocuments({ created_by: userId });
+        console.log(totalCount)
+
+        return { tasks, totalCount };
     }
     updateTask = async (query, data) => {
         return await Task.findOneAndUpdate(query, data, { new: true });

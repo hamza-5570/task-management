@@ -9,10 +9,20 @@ class ProjectService{
         return await Project.findOne(query).populate("tasks");
     };
 
-    getProjects = async (userId) => {
-        console.log(userId)
-        return await Project.find({created_by: userId}).populate("tasks");
-    };
+     getProjects = async (userId, page, limit) => {
+        console.log(userId, page, limit)
+        const skip = (page - 1) * limit;
+
+        const projects = await Project.find({ created_by:userId })
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
+        const totalCount = await Project.countDocuments({ created_by: userId });
+    
+        return { projects, totalCount };
+    }
+    
 
     getUnBilledProjects = async (userId) => {
         return await Project.find({invoice: null, status: "Completed", created_by: userId}).populate("tasks");
