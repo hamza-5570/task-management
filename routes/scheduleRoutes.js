@@ -10,7 +10,6 @@ router.get("/all/schedules", isAutherticated.isAuthenticated, scheduleController
 router.get("/day/schedules", isAutherticated.isAuthenticated, scheduleController.getOneDaySchedule);
 router.get("/weekly/schedules", isAutherticated.isAuthenticated, scheduleController.getWeeklySchedule);
 router.get("/monthly/schedules", isAutherticated.isAuthenticated, scheduleController.getMonthlySchedule);
-router.get("/yearly/schedules", isAutherticated.isAuthenticated, scheduleController.getYearlySchedule);
 router.get("/date/schedules", isAutherticated.isAuthenticated, scheduleController.getSchedulesByDate);
 router.get("/:id", scheduleController.findSchedule);
 router.put("/update/:id", scheduleController.updateSchedule);

@@ -130,22 +130,10 @@ class ScheduleController {
   };
 
   getMonthlySchedule = async (req, res) => {
+    const {day} = req.query;
     const { userId } = req;
     try {
-      const schedules = await scheduleServices.getMonthlySchedule(userId);
-      if (!schedules) {
-        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-      }
-      return Response.success(res, messageUtil.OK, schedules);
-    } catch (error) {
-      return Response.serverError(res, error);
-    }
-  };
-
-  getYearlySchedule = async (req, res) => {
-    const { userId } = req;
-    try {
-      const schedules = await scheduleServices.getYearlySchedule(userId);
+      const schedules = await scheduleServices.getMonthlySchedule(userId, day);
       if (!schedules) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
       }
