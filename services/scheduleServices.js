@@ -65,6 +65,17 @@ class ScheduleService {
             }
         });
     };
+
+    getSchedulesByDate = async (userId, date) => {
+        const today = new Date();
+    
+        return await Schedule.find({ 
+            user: userId,
+            from: { $gte: today.toISOString(), $lt: date }, 
+            to: { $gte: today.toISOString(), $lt: date }
+        });
+    };
+    
     
     updateSchedule = async (query, data) => {
         return await Schedule.findOneAndUpdate(query, data, { new: true });

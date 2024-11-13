@@ -115,6 +115,20 @@ class ScheduleController {
             return Response.serverError(res, error);
         }
     };
+
+    getSchedulesByDate = async (req, res) => {
+        const {date} = req.body
+        const { userId } = req;
+        try {
+            const schedules = await scheduleServices.getSchedulesByDate(userId, date);
+            if (!schedules) {
+                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+            }
+            return Response.success(res, messageUtil.OK, schedules);
+        } catch (error) {
+            return Response.serverError(res, error);
+        }
+    };
 }
 
 export default new ScheduleController();
