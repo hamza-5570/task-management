@@ -67,14 +67,15 @@ class ScheduleService {
     };
 
     getSchedulesByDate = async (userId, date) => {
-        const today = new Date();
+        const today = new Date().toISOString();
     
         return await Schedule.find({ 
             user: userId,
-            from: { $gte: today.toISOString(), $lt: date }, 
-            to: { $gte: today.toISOString(), $lt: date }
+            from: { $gte: today }, 
+            to: { $lt: date }
         });
     };
+    
     
     
     updateSchedule = async (query, data) => {
