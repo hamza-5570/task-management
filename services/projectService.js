@@ -14,6 +14,7 @@ class ProjectService{
         const skip = (page - 1) * limit;
 
         const projects = await Project.find({ created_by:userId })
+            .populate("tasks")
             .skip(skip)
             .limit(limit)
             .exec();
