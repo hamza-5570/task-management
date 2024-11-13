@@ -130,10 +130,10 @@ class ScheduleController {
   };
 
   getMonthlySchedule = async (req, res) => {
-    const {day} = req.query;
+    const {month} = req.query;
     const { userId } = req;
     try {
-      const schedules = await scheduleServices.getMonthlySchedule(userId, day);
+      const schedules = await scheduleServices.getMonthlySchedule(userId, month);
       if (!schedules) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
       }

@@ -35,30 +35,35 @@ class ScheduleService {
   };
 
 
-  getMonthlySchedule = async (userId, day = null) => {
-    const today = new Date();
-
+  getMonthlySchedule = async (userId, month = null) => {
     let startDate, endDate;
 
-    if (day) {
-        startDate = new Date(day);
+    if (month) {
+        const today = new Date();
+        const year = today.getFullYear();
+
+        startDate = new Date(year, month - 1, 1);
         startDate.setUTCHours(0, 0, 0, 0);
-        endDate = new Date(day);
+
+        endDate = new Date(year, month, 0);
         endDate.setUTCHours(23, 59, 59, 999);
     } else {
-      startDate = today;
-      endDate = new Date(today);
-      endDate.setDate(today.getDate() + 30);
+        const today = new Date();
+        startDate = today;
+        
+        endDate = new Date(today);
+        endDate.setDate(today.getDate() + 30);
     }
 
-    console.log(startDate, endDate);
+    console.log('Start Date:', startDate.toISOString(), 'End Date:', endDate.toISOString());
 
     return await Schedule.find({
       user: userId,
       from: { $gte: startDate.toISOString(), $lt: endDate.toISOString() },
       to: { $gte: startDate.toISOString(), $lt: endDate.toISOString() },
     }).populate("task");
-  };
+};
+
 
   getSchedulesByDate = async (userId, date) => {
     const today = new Date().toISOString();
