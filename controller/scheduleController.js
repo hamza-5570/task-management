@@ -2,133 +2,172 @@ import scheduleServices from "../services/scheduleServices.js";
 import messageUtil from "../utils/messageUtil.js";
 import Response from "../utils/response.js";
 
-
 class ScheduleController {
-    createSchedule = async (req, res) => {
-        const { userId } = req;
-        try {
-            const schedule = {
-                ...req.body,
-                user: userId
-            }
-            const newSchedule = await scheduleServices.createSchedule(schedule);
-            if (!newSchedule) {
-                return Response.serverError(res, messageUtil.FAILED_TO_CREATE_SCHEDULE);
-            }
-            return Response.success(res, messageUtil.SCHEDULE_CREATED, newSchedule);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+  createSchedule = async (req, res) => {
+    const { userId } = req;
+    try {
+      const { date, from, to, task } = req.body;
 
-    getSchedules = async (req, res) => {
-        const {userId} = req;
-        try {
-            const schedules = await scheduleServices.getSchedules(userId);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      const formatDateToString = (date, time) => {
+        const [hours, minutes] = time.split(":");
+        const formattedDate = new Date(date);
 
-    findSchedule = async (req, res) => {
-        try {
-            const schedule = await scheduleServices.findSchedule({ _id: req.params.id });
-            if (!schedule) return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
-            return Response.success(res, messageUtil.OK, schedule);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+        formattedDate.setHours(hours, minutes, 0, 0);
 
-    updateSchedule = async (req, res) => {
-        try {    
-            const schedule = await scheduleServices.updateSchedule({ _id: req.params.id }, req.body);
-            if (!schedule) return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
-            return Response.success(res, messageUtil.SCHEDULE_UPDATED, schedule);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+        const formattedTime =
+          formattedDate.getFullYear() +
+          "-" +
+          String(formattedDate.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(formattedDate.getDate()).padStart(2, "0") +
+          "T" +
+          String(formattedDate.getHours()).padStart(2, "0") +
+          ":" +
+          String(formattedDate.getMinutes()).padStart(2, "0");
 
-    deleteSchedule = async (req, res) => {
-        try {
-            const schedule = await scheduleServices.deleteSchedule({ _id: req.params.id });
-            if (!schedule) return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
-            return Response.success(res, messageUtil.SCHEDULE_DELETED, schedule);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+        return formattedTime;
+      };
 
-    getOneDaySchedule = async (req, res) => {
-        const { userId } = req;
-        try {
-            const schedules = await scheduleServices.getOneDaySchedule(userId);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      const formattedFromDate = formatDateToString(date, from);
+      const formattedToDate = formatDateToString(date, to);
 
-    getWeeklySchedule = async (req, res) => {
-        const { userId } = req;
-        try {
-            const schedules = await scheduleServices.getWeeklySchedule(userId);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      const schedule = {
+        task,
+        user: userId,
+        from: formattedFromDate,
+        to: formattedToDate,
+      };
 
-    getMonthlySchedule = async (req, res) => {
-        const { userId } = req;
-        try {
-            const schedules = await scheduleServices.getMonthlySchedule(userId);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      const newSchedule = await scheduleServices.createSchedule(schedule);
 
-    getYearlySchedule = async (req, res) => {
-        const { userId } = req;
-        try {
-            const schedules = await scheduleServices.getYearlySchedule(userId);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      if (!newSchedule) {
+        return Response.serverError(res, messageUtil.FAILED_TO_CREATE_SCHEDULE);
+      }
 
-    getSchedulesByDate = async (req, res) => {
-        const {date} = req.body
-        const { userId } = req;
-        try {
-            const schedules = await scheduleServices.getSchedulesByDate(userId, date);
-            if (!schedules) {
-                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
-            }
-            return Response.success(res, messageUtil.OK, schedules);
-        } catch (error) {
-            return Response.serverError(res, error);
-        }
-    };
+      return Response.success(res, messageUtil.SCHEDULE_CREATED, newSchedule);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getSchedules = async (req, res) => {
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getSchedules(userId);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  findSchedule = async (req, res) => {
+    try {
+      const schedule = await scheduleServices.findSchedule({
+        _id: req.params.id,
+      });
+      if (!schedule)
+        return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
+      return Response.success(res, messageUtil.OK, schedule);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  updateSchedule = async (req, res) => {
+    try {
+      const schedule = await scheduleServices.updateSchedule(
+        { _id: req.params.id },
+        req.body
+      );
+      if (!schedule)
+        return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
+      return Response.success(res, messageUtil.SCHEDULE_UPDATED, schedule);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  deleteSchedule = async (req, res) => {
+    try {
+      const schedule = await scheduleServices.deleteSchedule({
+        _id: req.params.id,
+      });
+      if (!schedule)
+        return Response.notFound(res, messageUtil.SCHEDULE_NOT_FOUND);
+      return Response.success(res, messageUtil.SCHEDULE_DELETED, schedule);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getOneDaySchedule = async (req, res) => {
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getOneDaySchedule(userId);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getWeeklySchedule = async (req, res) => {
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getWeeklySchedule(userId);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getMonthlySchedule = async (req, res) => {
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getMonthlySchedule(userId);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getYearlySchedule = async (req, res) => {
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getYearlySchedule(userId);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
+
+  getSchedulesByDate = async (req, res) => {
+    const { date } = req.body;
+    const { userId } = req;
+    try {
+      const schedules = await scheduleServices.getSchedulesByDate(userId, date);
+      if (!schedules) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_SCHEDULES);
+      }
+      return Response.success(res, messageUtil.OK, schedules);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  };
 }
 
 export default new ScheduleController();

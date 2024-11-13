@@ -77,7 +77,6 @@ class ScheduleService {
     };
     
     
-    
     updateSchedule = async (query, data) => {
         return await Schedule.findOneAndUpdate(query, data, { new: true });
     };

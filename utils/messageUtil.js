@@ -97,6 +97,10 @@ const messageUtil = {
     FAILED_TO_UPDATE_SCHEDULE: "Failed to update schedule!",
     FAILED_TO_DELETE_SCHEDULE: "Failed to delete schedule!",
     SCHEDULE_FETCHED: "Schedule fetched successfully!",
+
+    // date
+    DATE_REQUIRED: "Date is required!",
+    DATE_TYPE: "Date must be a string!",
 }
 
 export default messageUtil

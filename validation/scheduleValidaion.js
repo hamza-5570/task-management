@@ -18,6 +18,10 @@ class ScheduleValidation {
                 to: Joi.string().required().messages({
                     "string.empty": messageUtil.TO_REQUIRED,
                     "any.required": messageUtil.TO_REQUIRED
+                }),
+                date: Joi.string().required().messages({
+                    "string.empty": messageUtil.DATE_REQUIRED,
+                    "any.required": messageUtil.DATE_REQUIRED
                 })
             });
 
