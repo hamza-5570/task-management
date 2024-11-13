@@ -21,7 +21,7 @@ app.use(express.json(
 
 app.use(cors(
     {
-        origin: ["https://task-project-tau-ten.vercel.app", "http://localhost:3000"],
+        origin: ["https://task-project-tau-ten.vercel.app", "http://localhost:3000", "http://192.168.1.13"],
         credentials: true
     }
 ))
