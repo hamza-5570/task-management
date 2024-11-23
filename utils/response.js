@@ -15,10 +15,11 @@ class Response {
     const options = {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "None" : "Strict",
+      secure: true,
+      sameSite: "None",
+      path: "/",
     };
-    
+
     if (token) {
       res.cookie("token", token, options);
     }
