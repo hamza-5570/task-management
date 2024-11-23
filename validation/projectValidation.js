@@ -26,9 +26,9 @@ class ProjectValidation {
                     "string.empty": messageUtil.EMAIL_REQUIRED,
                     "any.required": messageUtil.EMAIL_REQUIRED
                 }),
-                due_date: Joi.date().required().messages({
-                    "date.base": messageUtil.DUE_DATE_TYPE,
-                    "any.required": messageUtil.DUE_DATE_REQUIRED
+                notes: Joi.date().required().messages({
+                    "date.base": messageUtil.NOTES_TYPE,
+                    "any.required": messageUtil.NOTES_REQUIRED
                 }),
                 phoneNumber: Joi.string().required().messages({
                     "string.empty": messageUtil.PHONE_NUMBER_REQUIRED,

@@ -58,6 +58,8 @@ const messageUtil = {
     TIME_REQUIRED: "Time is required!",
     STATUS_REQUIRED: "Status is required!",
     ASSIGNED_TO_REQUIRED: "Assigned to is required!",
+    NOTES_REQUIRED: "Notes is required!",
+    NOTES_TYPE: "Notes must be a string!",
     
 
     // task
