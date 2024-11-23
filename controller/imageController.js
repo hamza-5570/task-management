@@ -4,6 +4,7 @@ import messageUtil from "../utils/messageUtil.js";
 
 class ImageController {
     UploadImage = async (req, res) => {
+      console.log("Hello World")
         try {
           cloudnary.v2.config({
             cloud_name: process.env.CLOUD_NAME,
