@@ -7,6 +7,7 @@ import userValidation from '../validation/userValidation.js';
 
 router.post('/signup', userValidation.createUser, userController.SignUp);
 router.post('/login', userController.Login);
+router.post('/logout', userController.logout);
 router.put('/update', isAuthenticated.isAuthenticated, userController.UpdateUser);
 router.get('/details', isAuthenticated.isAuthenticated, userController.getUserDetails);
 router.post('/reset/email', userController.ForgotPasswordEmail);

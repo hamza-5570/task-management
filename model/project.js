@@ -22,8 +22,8 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    due_date: {
-      type: Date,
+    notes: {
+      type: String,
       required: true,
     },
     phoneNumber: {

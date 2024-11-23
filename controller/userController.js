@@ -147,6 +147,15 @@ class UserConroller {
       return Response.serverError(res, error);
     }
   };
+
+  logout = async (req, res) => {
+    try {
+      res.clearCookie("token");
+      return Response.success(res, messageUtil.LOGOUT_SUCCESS);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  }
 }
 
 export default new UserConroller();

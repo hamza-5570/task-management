@@ -20,6 +20,7 @@ const messageUtil = {
     PASSWORD_REQUIRED: "Password is required!",
     PASSWORD_TYPE: "Password must be a string!",
     ROLE_REQUIRED: "Role is required!",
+    LOGOUT_SUCCESS: "Logout success!",
 
 
     // project 

@@ -10,14 +10,16 @@ class Response {
   };
 
   success = (res, message, data, token) => {
+    const isProduction = process.env.NODE_ENV === "production" || false;
+
     const options = {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Strict",
     };
-
-    if(token){
+    
+    if (token) {
       res.cookie("token", token, options);
     }
 
