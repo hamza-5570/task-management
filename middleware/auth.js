@@ -1,14 +1,17 @@
-
 import jwtHelper from "../utils/jwt.js";
 import Response from "../utils/response.js";
 import messageUtil from "../utils/messageUtil.js";
 
 const isAuthenticated = async (req, res, next) => {
   try {
-    
-    const token = req.cookies.token
-    
-   
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader) {
+      return Response.notFound(res, messageUtil.TOKEN_EMPTY);
+    }
+
+    const token = authHeader.split(' ')[1];
+
     if (!token) {
       return Response.notFound(res, messageUtil.TOKEN_EMPTY);
     }
@@ -24,6 +27,7 @@ const isAuthenticated = async (req, res, next) => {
     }
 
     req.userId = isVerified._id;
+
     next();
   } catch (error) {
     return res.status(500).json({
