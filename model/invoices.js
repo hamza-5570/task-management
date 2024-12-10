@@ -11,6 +11,10 @@ const InvoiceSchema = new Schema(
             type: String,
             required: true,
         },
+        notes: {
+            type: String,
+            required: true,
+        },
         client_name: {
             type: String,
             required: true,
@@ -37,6 +41,6 @@ const InvoiceSchema = new Schema(
             ref: "User",
         },
     })
-    
+
 
 export default model("Invoice", InvoiceSchema);
