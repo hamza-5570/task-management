@@ -50,7 +50,6 @@ class TaskController {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const { status, due_date } = req.query;
-    console.log(status, due_date);
 
     const { userId } = req;
     try {

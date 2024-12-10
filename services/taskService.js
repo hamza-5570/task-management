@@ -19,8 +19,9 @@ class TaskService {
             query.status = status;
         }
         if (due_date) {
-            query.due_date = due_date;
+            query.due_date = new Date(due_date)
         }
+        console.log(query)
 
         try {
             const tasks = await Task.find(query).skip(skip).limit(limit).exec();

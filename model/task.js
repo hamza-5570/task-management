@@ -15,7 +15,7 @@ const TaskSchema = new Schema(
       required: true,
     },
     due_date: {
-      type: String,
+      type: Date,
       required: true,
     },
     time: {
