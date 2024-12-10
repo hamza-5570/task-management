@@ -14,6 +14,13 @@ class InvoiceService {
 
         return { paid_invoices, unpaid_invoices, totalPaidCount, totalUnPaidCount };
     }
+
+    getInvoicesByUserId = async (userId, page, limit) => {
+        const skip = (page - 1) * limit;
+        const invoices = await Invoice.find({ created_by: userId }).skip(skip).limit(limit).exec();
+        const totalCount = await Invoice.countDocuments({ created_by: userId });
+        return { invoices, totalCount };
+    }
     getPaidInvoices = async (userId) => {
         return await Invoice.find({ status: "Paid", created_by: userId });
     }

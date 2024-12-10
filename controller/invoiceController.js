@@ -73,6 +73,31 @@ class InvoiceController {
         }
     };
 
+    getInvoicesByUserId = async (req, res) => {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const { userId } = req;
+        try {
+            const { invoices, totalCount } = await InvoiceService.getInvoicesByUserId(userId, page, limit);
+            if (!invoices) {
+                return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
+            }
+            const totalPages = Math.ceil(totalCount / limit);
+            const response = {
+                invoices,
+                pagination: {
+                    currentPage: page,
+                    totalPages,
+                    totalItems: totalCount,
+                    itemsPerPage: limit,
+                }
+            }
+            return Response.success(res, messageUtil.OK, response);
+        } catch (error) {
+            return Response.serverError(res, error);
+        }
+    };
+
     getInvoice = async (req, res) => {
         try {
             const invoice = await InvoiceService.getInvoice({ _id: req.params.id });
