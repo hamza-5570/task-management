@@ -60,7 +60,7 @@ const messageUtil = {
     ASSIGNED_TO_REQUIRED: "Assigned to is required!",
     NOTES_REQUIRED: "Notes is required!",
     NOTES_TYPE: "Notes must be a string!",
-    
+
 
     // task
     FAILED_TO_CREATE_TASK: "Failed to create task!",
@@ -104,6 +104,17 @@ const messageUtil = {
     // date
     DATE_REQUIRED: "Date is required!",
     DATE_TYPE: "Date must be a string!",
+
+    // taskName
+    FAILED_TO_CREATE_TASKNAME: "Failed to create taskName!",
+    TASKNAME_CREATED: "TaskName created!",
+    TASKNAME_UPDATED: "TaskName updated!",
+    TASKNAME_DELETED: "TaskName deleted!",
+    TASKNAME_NOT_FOUND: "TaskName not found!",
+    FAILED_TO_FETCH_TASKNAMES: "Failed to fetch taskNames!",
+    FAILED_TO_UPDATE_TASKNAME: "Failed to update taskName!",
+    FAILED_TO_DELETE_TASKNAME: "Failed to delete taskName!",
+    TASKNAME_FETCHED: "TaskName fetched successfully!",
 }
 
 export default messageUtil
