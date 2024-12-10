@@ -5,24 +5,24 @@ import messageUtil from "../utils/messageUtil.js"
 
 class ProjectController {
     createProject = async (req, res) => {
-        const {userId} = req;
-        const {body: {project_name, company, project_description, pointof_contact, email, notes, phoneNumber, Attorney, Confilictof_interest, Examinee}} = req;
+        const { userId } = req;
+        const { body: { project_name, company, project_description, pointof_contact, email, notes, phoneNumber, Attorney, Confilictof_interest, Examinee } } = req;
 
         const data = {
-            project_name, 
-            company, 
-            project_description, 
-            pointof_contact, 
-            email, 
-            notes, 
-            phoneNumber, Attorney, 
-            Confilictof_interest, 
+            project_name,
+            company,
+            project_description,
+            pointof_contact,
+            email,
+            notes,
+            phoneNumber, Attorney,
+            Confilictof_interest,
             Examinee,
             created_by: userId
         }
         try {
             const project = await projectService.createProject(data);
-           return Response.success(res, messageUtil.PROJECT_CREATED, project);
+            return Response.success(res, messageUtil.PROJECT_CREATED, project);
         } catch (error) {
             return Response.serverError(res, error);
         }
@@ -39,16 +39,16 @@ class ProjectController {
     }
 
     getProjects = async (req, res) => {
-        const page = parseInt(req.query.page) || 1;  
+        const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
-    
-        try { 
+
+        try {
             const { userId } = req;
 
             const { projects, totalCount } = await projectService.getProjects(userId, page, limit);
-    
+
             const totalPages = Math.ceil(totalCount / limit);
-    
+
             const response = {
                 projects,
                 pagination: {
@@ -58,13 +58,13 @@ class ProjectController {
                     itemsPerPage: limit,
                 }
             };
-    
+
             return Response.success(res, messageUtil.OK, response);
         } catch (error) {
             return Response.serverError(res, error);
         }
     }
-    
+
 
     updateProject = async (req, res) => {
         try {
@@ -87,7 +87,7 @@ class ProjectController {
     }
 
     getUnBilledProjects = async (req, res) => {
-        const {userId} = req;
+        const { userId } = req;
         try {
             const projects = await projectService.getUnBilledProjects(userId);
             return Response.success(res, messageUtil.OK, projects);
