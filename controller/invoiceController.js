@@ -39,22 +39,33 @@ class InvoiceController {
         const limit = parseInt(req.query.limit) || 10;
         const { userId } = req;
         try {
-            const { paid_invoices, unpaid_invoices, totalCount } = await InvoiceService.getInvoices(userId, page, limit);
+            const { paid_invoices, unpaid_invoices, totalPaidCount, totalUnPaidCount } = await InvoiceService.getInvoices(userId, page, limit);
             if (!paid_invoices || !unpaid_invoices) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
             }
 
-            const totalPages = Math.ceil(totalCount / limit);
+            const totalPaidPages = Math.ceil(totalPaidCount / limit);
+            const totalUnPaidPages = Math.ceil(totalUnPaidCount / limit);
 
             const response = {
-                paid_invoices,
-                unpaid_invoices,
-                pagination: {
-                    currentPage: page,
-                    totalPages,
-                    totalItems: totalCount,
-                    itemsPerPage: limit,
-                }
+                paid_invoices: {
+                    data: paid_invoices,
+                    pagination: {
+                        currentPage: page,
+                        totalPages: totalPaidPages,
+                        totalItems: totalPaidCount,
+                        itemsPerPage: limit,
+                    }
+                },
+                unpaid_invoices: {
+                    data: unpaid_invoices,
+                    pagination: {
+                        currentPage: page,
+                        totalPages: totalUnPaidPages,
+                        totalItems: totalUnPaidCount,
+                        itemsPerPage: limit,
+                    }
+                },
             }
             return Response.success(res, messageUtil.OK, response);
         } catch (error) {
