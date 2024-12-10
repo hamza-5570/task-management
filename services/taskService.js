@@ -12,19 +12,27 @@ class TaskService {
         return await Task.find({ project: project });
     }
 
-    getTasksByUserId = async (userId, page, limit) => {
+    getTasksByUserId = async (userId, page, limit, status, due_date) => {
         const skip = (page - 1) * limit;
+        const query = { created_by: userId };
+        if (status) {
+            query.status = status;
+        }
+        if (due_date) {
+            query.due_date = due_date;
+        }
 
-        const tasks = await Task.find({ created_by: userId })
-        .skip(skip)
-        .limit(limit)
-        .exec();
+        try {
+            const tasks = await Task.find(query).skip(skip).limit(limit).exec();
+            const totalCount = await Task.countDocuments(query);
 
-        const totalCount = await Task.countDocuments({ created_by: userId });
-        console.log(totalCount)
+            return { tasks, totalCount };
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+            throw new Error("Failed to fetch tasks.");
+        }
+    };
 
-        return { tasks, totalCount };
-    }
     updateTask = async (query, data) => {
         return await Task.findOneAndUpdate(query, data, { new: true });
     }

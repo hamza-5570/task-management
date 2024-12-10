@@ -33,8 +33,10 @@ class TaskController {
     const {
       params: { projectId },
     } = req;
+
+
     try {
-      const tasks = await taskService.getTasks(projectId);
+      const tasks = await taskService.getTasks(projectId,);
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
       }
@@ -47,13 +49,17 @@ class TaskController {
   getTasksByUserId = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const { status, due_date } = req.query;
+    console.log(status, due_date);
 
     const { userId } = req;
     try {
       const { tasks, totalCount } = await taskService.getTasksByUserId(
         userId,
         page,
-        limit
+        limit,
+        status,
+        due_date
       );
 
       if (!tasks) {

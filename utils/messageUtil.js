@@ -75,6 +75,7 @@ const messageUtil = {
     TASK_REQUIRED: "Task is required!",
     FROM_REQUIRED: "From is required!",
     TO_REQUIRED: "To is required!",
+    TASK_DESCRIPTION_REQUIRED: "Task description is required!",
 
 
     // invoice

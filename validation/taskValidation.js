@@ -34,6 +34,14 @@ class TaskValidation {
                     "string.empty": messageUtil.ASSIGNED_TO_REQUIRED,
                     "any.required": messageUtil.ASSIGNED_TO_REQUIRED
                 }),
+                task_description: Joi.string().messages({
+                    "string.empty": messageUtil.TASK_DESCRIPTION_REQUIRED,
+                    "any.required": messageUtil.TASK_DESCRIPTION_REQUIRED
+                }),
+                Examinee: Joi.string().messages({
+                    "string.empty": messageUtil.EXAMINEE_REQUIRED,
+                    "any.required": messageUtil.EXAMINEE_REQUIRED
+                })
             });
 
             const { error } = schema.validate(req.body);
