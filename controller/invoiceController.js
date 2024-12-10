@@ -22,7 +22,7 @@ class InvoiceController {
             if (!project) {
                 return Response.serverError(res, messageUtil.PROJECT_NOT_FOUND);
             }
-            if(project.invoice !== null) {
+            if (project.invoice !== null) {
                 return Response.serverError(res, messageUtil.PROJECT_ALREADY_HAVE_INVOICE);
             }
             project.invoice = newInvoice._id;
@@ -35,19 +35,20 @@ class InvoiceController {
     };
 
     getInvoices = async (req, res) => {
-        const page = parseInt(req.query.page) || 1;  
+        const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         const { userId } = req;
         try {
-            const {invoices, totalCount} = await InvoiceService.getInvoices(userId, page, limit);
-            if (!invoices) {
+            const { paid_invoices, unpaid_invoices, totalCount } = await InvoiceService.getInvoices(userId, page, limit);
+            if (!paid_invoices || !unpaid_invoices) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
             }
 
             const totalPages = Math.ceil(totalCount / limit);
 
             const response = {
-                invoices,
+                paid_invoices,
+                unpaid_invoices,
                 pagination: {
                     currentPage: page,
                     totalPages,
@@ -75,9 +76,9 @@ class InvoiceController {
 
     updateInvoice = async (req, res) => {
         try {
-            const {params: { id }} = req;
+            const { params: { id } } = req;
             const invoice = req.body;
-            const updatedInvoice = await InvoiceService.updateInvoice(invoice, {_id: id});
+            const updatedInvoice = await InvoiceService.updateInvoice(invoice, { _id: id });
             if (!updatedInvoice) {
                 return Response.serverError(res, messageUtil.FAILED_TO_UPDATE_INVOICE);
             }
@@ -100,7 +101,7 @@ class InvoiceController {
     };
 
     getPaidInvoices = async (req, res) => {
-        const {userId} = req;
+        const { userId } = req;
         try {
             const invoices = await InvoiceService.getPaidInvoices(userId);
             if (!invoices) {
@@ -113,7 +114,7 @@ class InvoiceController {
     };
 
     getUnPaidInvoices = async (req, res) => {
-        const {userId} = req;
+        const { userId } = req;
         try {
             const invoices = await InvoiceService.getUnPaidInvoices(userId);
             if (!invoices) {
