@@ -6,7 +6,8 @@ import projectServices from "../services/projectService.js";
 class TaskNameController {
     createTaskName = async (req, res) => {
         try {
-            const task = { ...req.body };
+            const { userId } = req;
+            const task = { ...req.body, created_by: userId };
             const newTaskName = await TaskNameService.createTaskName(task);
             if (!newTaskName) {
                 return Response.serverError(res, messageUtil.FAILED_TO_CREATE_TASKNAME);
@@ -18,8 +19,9 @@ class TaskNameController {
     }
 
     getAllTaskNames = async (req, res) => {
+        const { userId } = req;
         try {
-            const taskNames = await TaskNameService.getAllTaskName();
+            const taskNames = await TaskNameService.getAllTaskName(userId);
             return Response.success(res, messageUtil.TASKNAME_FETCHED, taskNames);
         } catch (error) {
             return Response.serverError(res, error);

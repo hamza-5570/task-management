@@ -35,6 +35,14 @@ const TaskSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    Examinee: {
+      type: String,
+      required: true,
+    },
+    task_description: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

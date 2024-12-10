@@ -17,7 +17,6 @@ class TaskController {
         return Response.serverError(res, messageUtil.FAILED_TO_CREATE_TASK);
       }
       const project = await projectServices.findProject({ _id: task.project });
-      console.log(project);
       if (!project) {
         return Response.serverError(res, messageUtil.PROJECT_NOT_FOUND);
       }
