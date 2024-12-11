@@ -19,9 +19,12 @@ class TaskService {
             query.status = status;
         }
         if (due_date) {
-            query.due_date = new Date(due_date)
+            const startOfDay = new Date(due_date);
+            startOfDay.setUTCHours(0, 0, 0, 0);
+            const endOfDay = new Date(due_date);
+            endOfDay.setUTCHours(23, 59, 59, 999);
+            query.due_date = { $gte: startOfDay, $lt: endOfDay };
         }
-        console.log(query)
 
         try {
             const tasks = await Task.find(query).skip(skip).limit(limit).exec();
