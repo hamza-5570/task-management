@@ -37,35 +37,24 @@ class InvoiceController {
     getInvoices = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
+        const { status } = req.query;
         const { userId } = req;
         try {
-            const { paid_invoices, unpaid_invoices, totalPaidCount, totalUnPaidCount } = await InvoiceService.getInvoices(userId, page, limit);
-            if (!paid_invoices || !unpaid_invoices) {
+            const { invoices, totalCount } = await InvoiceService.getInvoices(userId, page, limit, status);
+            if (!invoices) {
                 return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);
             }
 
-            const totalPaidPages = Math.ceil(totalPaidCount / limit);
-            const totalUnPaidPages = Math.ceil(totalUnPaidCount / limit);
+            const totalPages = Math.ceil(totalCount / limit);
 
             const response = {
-                paid_invoices: {
-                    data: paid_invoices,
-                    pagination: {
-                        currentPage: page,
-                        totalPages: totalPaidPages,
-                        totalItems: totalPaidCount,
-                        itemsPerPage: limit,
-                    }
-                },
-                unpaid_invoices: {
-                    data: unpaid_invoices,
-                    pagination: {
-                        currentPage: page,
-                        totalPages: totalUnPaidPages,
-                        totalItems: totalUnPaidCount,
-                        itemsPerPage: limit,
-                    }
-                },
+                invoices,
+                pagination: {
+                    currentPage: page,
+                    totalPages,
+                    totalItems: totalCount,
+                    itemsPerPage: limit,
+                }
             }
             return Response.success(res, messageUtil.OK, response);
         } catch (error) {

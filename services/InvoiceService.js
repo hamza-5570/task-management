@@ -5,17 +5,17 @@ class InvoiceService {
     createInvoice = async (invoice) => {
         return await Invoice.create(invoice);
     }
-    getInvoices = async (userId, page, limit) => {
+    getInvoices = async (userId, page, limit, status) => {
         const skip = (page - 1) * limit;
-        const paid_invoices = await Invoice.find({ created_by: userId, status: "Paid" }).skip(skip).limit(limit).exec();
-        const unpaid_invoices = await Invoice.find({ created_by: userId, status: "Unpaid" }).skip(skip).limit(limit).exec();
-        const totalPaidCount = await Invoice.countDocuments({ created_by: userId, status: "Paid" });
-        const totalUnPaidCount = await Invoice.countDocuments({ created_by: userId, status: "Unpaid" });
+        const invoices = await Invoice.find({ created_by: userId, status }).skip(skip).limit(limit).exec();
+        const totalCount = await Invoice.countDocuments({ created_by: userId, status });
 
-        return { paid_invoices, unpaid_invoices, totalPaidCount, totalUnPaidCount };
+        return { invoices, totalCount };
     }
 
     getInvoicesByUserId = async (userId, page, limit) => {
+        console.log(userId, page, limit);
+
         const skip = (page - 1) * limit;
         const invoices = await Invoice.find({ created_by: userId }).skip(skip).limit(limit).exec();
         const totalCount = await Invoice.countDocuments({ created_by: userId });
