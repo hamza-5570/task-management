@@ -11,7 +11,6 @@ class TaskService {
     getTasks = async (project) => {
         return await Task.find({ project: project });
     }
-
     getTasksByUserId = async (userId, page, limit, status, due_date) => {
         const skip = (page - 1) * limit;
         const query = { created_by: userId };
@@ -27,7 +26,10 @@ class TaskService {
         }
 
         try {
-            const tasks = await Task.find(query).skip(skip).limit(limit).exec();
+            const tasks = await Task.find(query).populate({
+                path: "project",
+                select: "project_name",
+            }).skip(skip).limit(limit).exec();
             const totalCount = await Task.countDocuments(query);
 
             return { tasks, totalCount };
@@ -36,7 +38,6 @@ class TaskService {
             throw new Error("Failed to fetch tasks.");
         }
     };
-
     updateTask = async (query, data) => {
         return await Task.findOneAndUpdate(query, data, { new: true });
     }
