@@ -2,6 +2,7 @@ import taskService from "../services/taskService.js";
 import messageUtil from "../utils/messageUtil.js";
 import Response from "../utils/response.js";
 import projectServices from "../services/projectService.js";
+import WorkedHoursServices from "../services/WorkedHoursService.js";
 
 class TaskController {
   createTask = async (req, res) => {
@@ -36,7 +37,7 @@ class TaskController {
 
 
     try {
-      const tasks = await taskService.getTasks(projectId,);
+      const tasks = await taskService.getTasks(projectId);
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
       }
@@ -54,21 +55,28 @@ class TaskController {
     const { userId } = req;
     try {
       const { tasks, totalCount } = await taskService.getTasksByUserId(
-        userId,
-        page,
-        limit,
-        status,
-        due_date
+        userId, page, limit, status, due_date
       );
 
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
       }
 
+      // [total worked hours]
+      const tasksWithWorkedHours = await Promise.all(
+        tasks.map(async (task) => {
+          const { totalHours } = await WorkedHoursServices.getWorkedHoursForTask({ task: task._id });
+          return {
+            ...task.toObject(),
+            totalWorkedHours: totalHours || 0,
+          };
+        })
+      );
+
       const totalPages = Math.ceil(totalCount / limit);
 
       const response = {
-        tasks,
+        tasks: tasksWithWorkedHours,
         pagination: {
           currentPage: page,
           itemsPerPage: limit,
@@ -96,14 +104,32 @@ class TaskController {
   };
 
   updateTask = async (req, res) => {
+    const { body: {
+      project, client, task_name, due_date,
+      time, status, assigned_to,
+      task_description, date, hours
+    } } = req;
+    const { userId } = req
     try {
-      const task = req.body;
+      const task = {
+        project, client, task_name,
+        due_date, time, status, assigned_to, task_description
+      };
       const updatedTask = await taskService.updateTask(
         { _id: req.params.id },
         task
       );
       if (!updatedTask) {
         return Response.serverError(res, messageUtil.FAILED_TO_UPDATE_TASK);
+      }
+      const workhours = await WorkedHoursServices.createWorkedHours({
+        user: userId,
+        task: req.params.id,
+        date,
+        workedHours: hours
+      })
+      if (!workhours) {
+        return Response.serverError(res, messageUtil.FAILED_TO_CREATE_WORKEDHOURS);
       }
       return Response.success(res, messageUtil.TASK_UPDATED, updatedTask);
     } catch (error) {

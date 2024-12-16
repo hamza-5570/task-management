@@ -1,11 +1,13 @@
 import WorkedHours from "../model/workedHours.js";
 
-class WorkedHoursCrud {
+class WorkedHoursServices {
     createWorkedHours = async (data) => {
         return await WorkedHours.create(data);
     }
     getWorkedHoursForTask = async (query) => {
-        return await WorkedHours.find(query);
+        const workedHours = await WorkedHours.find(query);
+        const totalHours = workedHours.reduce((a, b) => a + b.workedHours, 0);
+        return { workedHours, totalHours };
     }
     updateWorkedHours = async (query, data) => {
         console.log(query, data)
@@ -15,4 +17,4 @@ class WorkedHoursCrud {
         return await WorkedHours.findOneAndDelete(query);
     }
 }
-export default new WorkedHoursCrud();
+export default new WorkedHoursServices();

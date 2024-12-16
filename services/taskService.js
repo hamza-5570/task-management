@@ -39,7 +39,9 @@ class TaskService {
         }
     };
     updateTask = async (query, data) => {
-        return await Task.findOneAndUpdate(query, data, { new: true });
+        console.log(query, data)
+        const task = await Task.findOneAndUpdate(query, data, { new: true });
+        return task
     }
     deleteTask = async (query) => {
         return await Task.findOneAndDelete(query);
