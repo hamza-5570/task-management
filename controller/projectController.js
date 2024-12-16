@@ -6,7 +6,7 @@ import messageUtil from "../utils/messageUtil.js"
 class ProjectController {
     createProject = async (req, res) => {
         const { userId } = req;
-        const { body: { project_name, company, project_description, pointof_contact, email, notes, phoneNumber, Attorney, Confilictof_interest, Examinee } } = req;
+        const { body: { project_name, company, project_description, pointof_contact, email, notes, phoneNumber, Attorney, Confilictof_interest, Examinee, isArchived } } = req;
 
         const data = {
             project_name,
@@ -18,7 +18,8 @@ class ProjectController {
             phoneNumber, Attorney,
             Confilictof_interest,
             Examinee,
-            created_by: userId
+            created_by: userId,
+            isArchived
         }
         try {
             const project = await projectService.createProject(data);
