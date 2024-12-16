@@ -22,18 +22,21 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
-    
+
     role: {
       type: String,
       default: "Employee",
       enum: ['Admin', 'Employee'],
     },
-
     phoneNumber: {
       type: Number,
     },
+    isBannerShow: {
+      type: Boolean,
+      default: true
+    }
   },
-  { timestamps: true}
+  { timestamps: true }
 );
 
 export default model("User", UserSchema);

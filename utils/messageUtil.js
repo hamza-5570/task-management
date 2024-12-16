@@ -21,6 +21,7 @@ const messageUtil = {
     PASSWORD_TYPE: "Password must be a string!",
     ROLE_REQUIRED: "Role is required!",
     LOGOUT_SUCCESS: "Logout success!",
+    USER_REQUIRED: "User is required!",
 
 
     // project 
@@ -117,6 +118,17 @@ const messageUtil = {
     FAILED_TO_UPDATE_TASKNAME: "Failed to update taskName!",
     FAILED_TO_DELETE_TASKNAME: "Failed to delete taskName!",
     TASKNAME_FETCHED: "TaskName fetched successfully!",
+
+    // WorkedHours
+    FAILED_TO_CREATE_WORKEDHOURS: "Failed to create workedHours!",
+    WORKEDHOURS_CREATED: "WorkedHours created!",
+    FAILED_TO_FETCH_WORKEDHOURS: "Failed to fetch workedHours!",
+    WORKEDHOURS_FETCHED: "WorkedHours fetched successfully!",
+    FAILED_TO_UPDATE_WORKEDHOURS: "Failed to update workedHours!",
+    FAILED_TO_DELETE_WORKEDHOURS: "Failed to delete workedHours!",
+    WORKEDHOURS_UPDATED: "WorkedHours updated!",
+    WORKEDHOURS_DELETED: "WorkedHours deleted!",
+    WORKED_HOURS_REQUIRED: "Worked hours is required!",
 }
 
 export default messageUtil
