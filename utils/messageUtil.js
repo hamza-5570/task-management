@@ -60,6 +60,7 @@ const messageUtil = {
     ASSIGNED_TO_REQUIRED: "Assigned to is required!",
     NOTES_REQUIRED: "Notes is required!",
     NOTES_TYPE: "Notes must be a string!",
+    ISARCHIEVED_REQUIRED: "Isarchieved is required!",
 
 
     // task

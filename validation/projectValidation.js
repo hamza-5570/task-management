@@ -46,6 +46,10 @@ class ProjectValidation {
                     "string.empty": messageUtil.EXAMINEE_REQUIRED,
                     "any.required": messageUtil.EXAMINEE_REQUIRED
                 }),
+                isArchived: Joi.boolean().required().messages({
+                    "string.empty": messageUtil.ISARCHIEVED_REQUIRED,
+                    "any.required": messageUtil.ISARCHIEVED_REQUIRED
+                })
             });
 
             const { error } = schema.validate(req.body);
