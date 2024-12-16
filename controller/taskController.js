@@ -107,7 +107,7 @@ class TaskController {
     const { body: {
       project, client, task_name, due_date,
       time, status, assigned_to,
-      task_description, date, hours
+      task_description, workedHours = []
     } } = req;
     const { userId } = req
     try {
@@ -115,6 +115,8 @@ class TaskController {
         project, client, task_name,
         due_date, time, status, assigned_to, task_description
       };
+
+      // [update task]
       const updatedTask = await taskService.updateTask(
         { _id: req.params.id },
         task
@@ -122,15 +124,21 @@ class TaskController {
       if (!updatedTask) {
         return Response.serverError(res, messageUtil.FAILED_TO_UPDATE_TASK);
       }
-      const workhours = await WorkedHoursServices.createWorkedHours({
-        user: userId,
-        task: req.params.id,
-        date,
-        workedHours: hours
-      })
-      if (!workhours) {
+
+      // [creating working hours]
+      const createWorkedHoursPromises = workedHours.map(async (hour) => {
+        return WorkedHoursServices.createWorkedHours({
+          user: userId,
+          task: req.params.id,
+          date: hour.date,
+          workedHours: hour.hours
+        });
+      });
+      const workedHoursResults = await Promise.all(createWorkedHoursPromises);
+      if (!workedHoursResults.every(result => result)) {
         return Response.serverError(res, messageUtil.FAILED_TO_CREATE_WORKEDHOURS);
       }
+
       return Response.success(res, messageUtil.TASK_UPDATED, updatedTask);
     } catch (error) {
       return Response.serverError(res, error);
