@@ -13,11 +13,9 @@ class ProjectService {
         const skip = (page - 1) * limit;
 
         let query = {};
-
         if (userId) {
             query.created_by = userId;
         }
-
         if (isArchived !== undefined) {
             query.isArchived = isArchived;
         }
