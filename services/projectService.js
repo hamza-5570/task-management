@@ -30,7 +30,7 @@ class ProjectService {
             .limit(limit)
             .exec();
 
-        const totalCount = await Project.countDocuments({ created_by: userId });
+        const totalCount = await Project.countDocuments(query);
 
         return { projects, totalCount };
     }
