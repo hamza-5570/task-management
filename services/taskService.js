@@ -11,9 +11,12 @@ class TaskService {
     getTasks = async (project) => {
         return await Task.find({ project: project });
     }
-    getTasksByUserId = async (userId, page, limit, status, due_date) => {
+    getTasksByUserId = async (userId, page, limit, status, due_date, month) => {
         const skip = (page - 1) * limit;
         const query = { created_by: userId };
+        let startDate, endDate;
+
+        // [query setup]
         if (status) {
             query.status = status;
         }
@@ -24,6 +27,20 @@ class TaskService {
             endOfDay.setUTCHours(23, 59, 59, 999);
             query.due_date = { $gte: startOfDay, $lt: endOfDay };
         }
+        if (month) {
+            const today = new Date();
+            const year = today.getFullYear();
+
+            startDate = new Date(year, month - 1, 1);
+            startDate.setUTCHours(0, 0, 0, 0);
+
+            endDate = new Date(year, month, 0);
+            endDate.setUTCHours(23, 59, 59, 999);
+
+            query.due_date = { $gte: startDate, $lt: endDate };
+        }
+
+        console.log("query", query);
 
         try {
             const tasks = await Task.find(query).populate({

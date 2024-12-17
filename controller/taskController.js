@@ -3,6 +3,7 @@ import messageUtil from "../utils/messageUtil.js";
 import Response from "../utils/response.js";
 import projectServices from "../services/projectService.js";
 import WorkedHoursServices from "../services/WorkedHoursService.js";
+import { formatDateToString, getEndTime } from "../utils/formateDate.js";
 
 class TaskController {
   createTask = async (req, res) => {
@@ -50,45 +51,15 @@ class TaskController {
   getTasksByUserId = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const { status, due_date } = req.query;
+    const { status, due_date, month } = req.query;
 
     const { userId } = req;
     try {
       const { tasks, totalCount } = await taskService.getTasksByUserId(
-        userId, page, limit, status, due_date
+        userId, page, limit, status, due_date, month
       );
-
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
-      }
-
-      // [formate the date]
-      const formatDateToString = (date, time) => {
-        const [hours, minutes] = time.split(":");
-        const formattedDate = new Date(date);
-
-        formattedDate.setHours(hours, minutes, 0, 0);
-
-        const formattedTime =
-          formattedDate.getFullYear() +
-          "-" +
-          String(formattedDate.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(formattedDate.getDate()).padStart(2, "0") +
-          "T" +
-          String(formattedDate.getHours()).padStart(2, "0") +
-          ":" +
-          String(formattedDate.getMinutes()).padStart(2, "0");
-
-        return formattedTime;
-      };
-
-      const getEndTime = (date) => {
-        const extractedDate = new Date(date).toISOString().substring(0, 10);
-        const endofDay = new Date(extractedDate);
-        endofDay.setUTCHours(23, 59, 59, 999);
-
-        return endofDay.toISOString().substring(0, 16);
       }
 
       // [total worked hours]
