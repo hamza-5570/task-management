@@ -5,6 +5,7 @@ class WorkedHoursServices {
         return await WorkedHours.create(data);
     }
     getWorkedHoursForTask = async (query) => {
+        console.log("query", query);
         const workedHours = await WorkedHours.find(query);
         const totalHours = workedHours.reduce((a, b) => a + b.workedHours, 0);
         return { workedHours, totalHours };

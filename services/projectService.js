@@ -1,4 +1,5 @@
 import Project from "../model/project.js";
+import WorkedHoursService from "./WorkedHoursService.js";
 
 class ProjectService {
     createProject = async (project) => {
@@ -20,7 +21,6 @@ class ProjectService {
             query.isArchived = isArchived;
         }
 
-        console.log("query", query);
 
         const projects = await Project.find(query)
             .populate("tasks")
@@ -33,11 +33,19 @@ class ProjectService {
         return { projects, totalCount };
     }
 
-
     getUnBilledProjects = async (userId) => {
-        return await Project.find({ invoice: null, status: "Completed", created_by: userId }).populate("tasks");
+        const projects = await Project.find({ invoice: null, status: "Completed", created_by: userId }).populate("tasks");
+        const getWorkedHoursForSpecificProject = await Promise.all(projects.map(async (project) => {
+            const tasks = project.tasks;
+            let totalHours = 0;
+            for (const task of tasks) {
+                const { totalHours: taskHours } = await WorkedHoursService.getWorkedHoursForTask({ task: task._id });
+                totalHours += taskHours;
+            }
+            return { project, totalHours };
+        }));
+        return getWorkedHoursForSpecificProject;
     };
-
     updateProject = async (query, data) => {
         return await Project.findOneAndUpdate(query, data, { new: true });
     };

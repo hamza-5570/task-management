@@ -62,7 +62,6 @@ class TaskService {
             throw new Error("Failed to fetch tasks.");
         }
     };
-
     updateTask = async (query, data) => {
         console.log(query, data)
         const task = await Task.findOneAndUpdate(query, data, { new: true });
