@@ -96,8 +96,10 @@ class TaskController {
 
   getUpcomingTasks = async (req, res) => {
     const { userId } = req;
+    const { due_date } = req.query;
+
     try {
-      const { tasks } = await taskService.getTasksByUserId(userId);
+      const tasks = await taskService.getUpcomingTasks(userId, due_date);
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
       }

@@ -12,6 +12,7 @@ class TaskService {
         return await Task.find({ project: project });
     }
     getTasksByUserId = async (userId, page, limit, status, due_date, month, year) => {
+        console.log("due_date", due_date);
         const query = { created_by: userId };
         let startDate, endDate;
 
@@ -62,6 +63,24 @@ class TaskService {
             throw new Error("Failed to fetch tasks.");
         }
     };
+    getUpcomingTasks = async (userId, due_date) => {
+        let query = { created_by: userId };
+        if (due_date) {
+            const startOfDay = new Date(due_date);
+            startOfDay.setUTCHours(0, 0, 0, 0);
+            const endOfDay = new Date(due_date);
+            endOfDay.setUTCHours(23, 59, 59, 999);
+            query.due_date = { $gte: startOfDay };
+        }
+
+        const tasks = await Task.find(query).populate({
+            path: "project",
+            select: "project_name",
+        }).exec();
+
+        return tasks;
+    };
+
     updateTask = async (query, data) => {
         console.log(query, data)
         const task = await Task.findOneAndUpdate(query, data, { new: true });
