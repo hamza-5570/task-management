@@ -94,6 +94,20 @@ class TaskController {
     }
   };
 
+  getUpcomingTasks = async (req, res) => {
+    const { userId } = req;
+    try {
+      const { tasks } = await taskService.getTasksByUserId(userId);
+      if (!tasks) {
+        return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);
+      }
+      const upcomingTasks = tasks.filter((task) => task.due_date >= new Date());
+      return Response.success(res, messageUtil.OK, upcomingTasks);
+    } catch (error) {
+      return Response.serverError(res, error);
+    }
+  }
+
   findTask = async (req, res) => {
     try {
       const task = await taskService.findTask({ _id: req.params.id });

@@ -5,11 +5,9 @@ class ProjectService {
     createProject = async (project) => {
         return await Project.create(project);
     };
-
     findProject = async (query) => {
         return await Project.findOne(query).populate("tasks");
     };
-
     getProjects = async (userId, page, limit, isArchived) => {
         const skip = (page - 1) * limit;
 
@@ -32,7 +30,6 @@ class ProjectService {
 
         return { projects, totalCount };
     }
-
     getUnBilledProjects = async (userId) => {
         const projects = await Project.find({ invoice: null, status: "Completed", created_by: userId }).populate("tasks");
         const getWorkedHoursForSpecificProject = await Promise.all(projects.map(async (project) => {
@@ -49,7 +46,6 @@ class ProjectService {
     updateProject = async (query, data) => {
         return await Project.findOneAndUpdate(query, data, { new: true });
     };
-
     deleteProject = async (query) => {
         return await Project.findOneAndDelete(query);
     };
