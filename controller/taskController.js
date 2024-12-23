@@ -51,12 +51,12 @@ class TaskController {
   getTasksByUserId = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const { status, due_date, month } = req.query;
+    const { status, due_date, month, year } = req.query;
 
     const { userId } = req;
     try {
       const { tasks, totalCount } = await taskService.getTasksByUserId(
-        userId, page, limit, status, due_date, month
+        userId, page, limit, status, due_date, month, year
       );
       if (!tasks) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_TASKS);

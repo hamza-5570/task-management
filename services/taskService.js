@@ -11,7 +11,7 @@ class TaskService {
     getTasks = async (project) => {
         return await Task.find({ project: project });
     }
-    getTasksByUserId = async (userId, page, limit, status, due_date, month) => {
+    getTasksByUserId = async (userId, page, limit, status, due_date, month, year) => {
         const skip = (page - 1) * limit;
         const query = { created_by: userId };
         let startDate, endDate;
@@ -28,8 +28,8 @@ class TaskService {
             query.due_date = { $gte: startOfDay, $lt: endOfDay };
         }
         if (month) {
-            const today = new Date();
-            const year = today.getFullYear();
+            const currentYear = new Date().getFullYear();
+            year = year || currentYear;
 
             startDate = new Date(year, month - 1, 1);
             startDate.setUTCHours(0, 0, 0, 0);
@@ -39,8 +39,6 @@ class TaskService {
 
             query.due_date = { $gte: startDate, $lt: endDate };
         }
-
-        console.log("query", query);
 
         try {
             const tasks = await Task.find(query).populate({
@@ -55,6 +53,7 @@ class TaskService {
             throw new Error("Failed to fetch tasks.");
         }
     };
+
     updateTask = async (query, data) => {
         console.log(query, data)
         const task = await Task.findOneAndUpdate(query, data, { new: true });
