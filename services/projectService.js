@@ -42,7 +42,7 @@ class ProjectService {
                 const { totalHours: taskHours } = await WorkedHoursService.getWorkedHoursForTask({ task: task._id });
                 totalHours += taskHours;
             }
-            return { project, totalHours };
+            return { ...project.toObject(), totalHours };
         }));
         return getWorkedHoursForSpecificProject;
     };
