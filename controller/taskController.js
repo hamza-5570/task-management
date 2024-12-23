@@ -49,8 +49,8 @@ class TaskController {
   };
 
   getTasksByUserId = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
     const { status, due_date, month, year } = req.query;
 
     const { userId } = req;
@@ -81,10 +81,10 @@ class TaskController {
       const response = {
         tasks: tasksWithWorkedHours,
         pagination: {
-          currentPage: page,
-          itemsPerPage: limit,
+          currentPage: page || 1,
+          itemsPerPage: limit || totalCount,
           totalItems: totalCount,
-          totalPages,
+          totalPages: totalPages || 1,
         },
       };
 

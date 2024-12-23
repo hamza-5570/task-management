@@ -12,11 +12,9 @@ class TaskService {
         return await Task.find({ project: project });
     }
     getTasksByUserId = async (userId, page, limit, status, due_date, month, year) => {
-        const skip = (page - 1) * limit;
         const query = { created_by: userId };
         let startDate, endDate;
 
-        // [query setup]
         if (status) {
             query.status = status;
         }
@@ -41,11 +39,22 @@ class TaskService {
         }
 
         try {
-            const tasks = await Task.find(query).populate({
-                path: "project",
-                select: "project_name",
-            }).skip(skip).limit(limit).exec();
-            const totalCount = await Task.countDocuments(query);
+            let tasks;
+            let totalCount;
+            if (page && limit) {
+                const skip = (page - 1) * limit;
+                tasks = await Task.find(query).populate({
+                    path: "project",
+                    select: "project_name",
+                }).skip(skip).limit(limit).exec();
+                totalCount = await Task.countDocuments(query);
+            } else {
+                tasks = await Task.find(query).populate({
+                    path: "project",
+                    select: "project_name",
+                }).exec();
+                totalCount = tasks.length;
+            }
 
             return { tasks, totalCount };
         } catch (error) {
