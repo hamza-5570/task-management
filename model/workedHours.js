@@ -7,7 +7,6 @@ const WorkedHoursSchema = new Schema({
     },
     workedHours: {
         type: Number,
-        required: true,
     },
     task: {
         type: Schema.Types.ObjectId,
@@ -15,7 +14,6 @@ const WorkedHoursSchema = new Schema({
     },
     date: {
         type: Date,
-        required: true,
     },
 });
 

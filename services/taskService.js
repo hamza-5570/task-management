@@ -12,7 +12,6 @@ class TaskService {
         return await Task.find({ project: project });
     }
     getTasksByUserId = async (userId, page, limit, status, due_date, month, year) => {
-        console.log("due_date", due_date);
         const query = { created_by: userId };
         let startDate, endDate;
 
@@ -80,7 +79,6 @@ class TaskService {
 
         return tasks;
     };
-
     updateTask = async (query, data) => {
         console.log(query, data)
         const task = await Task.findOneAndUpdate(query, data, { new: true });
