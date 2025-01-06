@@ -36,7 +36,6 @@ class ProjectService {
         {
           $match: {
             invoice: null,
-            status: { $ne: "Completed" },
             created_by: new mongoose.Types.ObjectId(userId),
           },
         },
