@@ -140,7 +140,7 @@ class InvoiceController {
         return Response.notFound(res, messageUtil.INVOICE_NOT_FOUND);
       }
       await projectService.updateProject(
-        { project: invoice.project },
+        { _id: invoice.project },
         { invoice: null }
       );
       return Response.success(res, messageUtil.INVOICE_DELETED, invoice);
