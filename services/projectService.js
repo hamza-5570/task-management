@@ -32,17 +32,42 @@ class ProjectService {
   getUnBilledProjects = async (userId) => {
     try {
       const projects = await mongoose.model("Project").aggregate([
-        // Match projects that meet the criteria
+        // Match projects created by the user
         {
           $match: {
-            invoice: null,
             created_by: new mongoose.Types.ObjectId(userId),
+            // invoice: null, // No invoice assigned
           },
         },
+        // Lookup invoices for projects
+        // {
+        //   $lookup: {
+        //     from: "Invoice", // Invoice collection name
+        //     localField: "invoice",
+        //     foreignField: "_id",
+        //     as: "invoiceDetails",
+        //   },
+        // },
+        // // Unwind invoiceDetails to work with invoice fields
+        // {
+        //   $unwind: {
+        //     path: "$invoiceDetails",
+        //     preserveNullAndEmptyArrays: true, // Preserve null values (when no invoice exists)
+        //   },
+        // },
+        // // Filter projects where invoice is null or status is unpaid
+        // {
+        //   $match: {
+        //     $or: [
+        //       { invoice: null }, // No invoice assigned
+        //       { "invoiceDetails.status": "unpaid" }, // Invoice exists but is unpaid
+        //     ],
+        //   },
+        // },
         // Lookup tasks for each project
         {
           $lookup: {
-            from: "tasks", // Task collection name
+            from: "tasks",
             localField: "tasks",
             foreignField: "_id",
             as: "tasks",
@@ -51,19 +76,19 @@ class ProjectService {
         // Lookup worked hours for tasks
         {
           $lookup: {
-            from: "workedhours", // WorkedHours collection name
+            from: "workedhours",
             localField: "tasks._id",
             foreignField: "task",
             as: "workedHours",
           },
         },
-        // Calculate total worked hours for each project
+        // Calculate total worked hours
         {
           $addFields: {
             totalHours: { $sum: "$workedHours.workedHours" },
           },
         },
-        // Project required fields
+        // Select required fields
         {
           $project: {
             _id: 1,
@@ -81,6 +106,7 @@ class ProjectService {
             created_by: 1,
             tasks: 1,
             invoice: 1,
+            // invoiceStatus: "$invoiceDetails.status", // Include invoice status
             createdAt: 1,
             updatedAt: 1,
             __v: 1,

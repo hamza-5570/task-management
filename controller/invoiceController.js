@@ -76,11 +76,13 @@ class InvoiceController {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const { userId } = req;
+    const { status } = req.query;
     try {
       const { invoices, totalCount } = await InvoiceService.getInvoicesByUserId(
         userId,
         page,
-        limit
+        limit,
+        status
       );
       if (!invoices) {
         return Response.serverError(res, messageUtil.FAILED_TO_FETCH_INVOICES);

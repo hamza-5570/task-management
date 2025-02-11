@@ -19,11 +19,11 @@ class InvoiceService {
     return { invoices, totalCount };
   };
 
-  getInvoicesByUserId = async (userId, page, limit) => {
+  getInvoicesByUserId = async (userId, page, limit, status) => {
     console.log(userId, page, limit);
 
     const skip = (page - 1) * limit;
-    const invoices = await Invoice.find({ created_by: userId })
+    const invoices = await Invoice.find({ created_by: userId, status })
       .skip(skip)
       .limit(limit)
       .exec();
