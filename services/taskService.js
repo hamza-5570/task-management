@@ -57,12 +57,13 @@ class TaskService {
       if (page && limit) {
         const skip = (page - 1) * limit;
         tasks = await Task.find(query)
-          .populate("project")
+          // .populate("project")
           .skip(skip)
           .limit(limit);
         totalCount = await Task.countDocuments(query);
       } else {
-        tasks = await Task.find(query).populate("project");
+        tasks = await Task.find(query);
+        // .populate("project");
         totalCount = tasks.length;
       }
 
