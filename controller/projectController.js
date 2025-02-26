@@ -1,6 +1,6 @@
 import projectService from "../services/projectService.js";
 import taskService from "../services/taskService.js";
-import invoiceService from "../services/invoiceService.js";
+import invoiceService from "../services/InvoiceService.js";
 import Response from "../utils/response.js";
 import messageUtil from "../utils/messageUtil.js";
 
