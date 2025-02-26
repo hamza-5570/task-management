@@ -4,6 +4,9 @@ class InvoiceService {
   createInvoice = async (invoice) => {
     return await Invoice.create(invoice);
   };
+  getAllInvoices = async (query) => {
+    return await Invoice.find(query);
+  };
   getInvoices = async (userId, page, limit, status) => {
     const skip = (page - 1) * limit;
     const invoices = await Invoice.find({ created_by: userId, status })

@@ -1,4 +1,6 @@
 import projectService from "../services/projectService.js";
+import taskService from "../services/taskService.js";
+import invoiceService from "../services/invoiceService.js";
 import Response from "../utils/response.js";
 import messageUtil from "../utils/messageUtil.js";
 
@@ -101,12 +103,10 @@ class ProjectController {
 
   deleteProject = async (req, res) => {
     try {
-      const task = await projectService.findProject({
-        project: req.params.id,
-      });
+      const task = await taskService.getTasks(req.params.id);
       if (task.length > 0)
         return Response.badRequest(res, messageUtil.TASKS_EXIST);
-      const invoice = await projectService.findProject({
+      const invoice = await invoiceService.getAllInvoices({
         project: req.params.id,
       });
       if (invoice.length > 0)
