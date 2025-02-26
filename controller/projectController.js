@@ -104,11 +104,13 @@ class ProjectController {
       const task = await projectService.findProject({
         project: req.params.id,
       });
-      if (task) return Response.badRequest(res, messageUtil.TASKS_EXIST);
+      if (task.length > 0)
+        return Response.badRequest(res, messageUtil.TASKS_EXIST);
       const invoice = await projectService.findProject({
         project: req.params.id,
       });
-      if (invoice) return Response.badRequest(res, messageUtil.INVOICE_EXIST);
+      if (invoice.length > 0)
+        return Response.badRequest(res, messageUtil.INVOICE_EXIST);
       const project = await projectService.deleteProject({
         _id: req.params.id,
       });
